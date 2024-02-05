@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Task List - TaskTracker
+{% endblock %}
+
+{% block content %}
+    <h1 class="mt-5 mb-4">Task List</h1>
+    <div class="d-flex flex-row justify-content-between my-3">
+        <a href="{% url 'create' %}" class="btn btn-success">+</a>
+
+        <form action="{% url 'tasks' %}" method="get">
+            <div class="input-group">
+                <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+                       aria-describedby="search-addon" name="search"/>
+                <button type="submit" class="btn btn-outline-primary" data-mdb-ripple-init>search</button>
+            </div>
+
+        </form>
+    </div>
+
+
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">To Do</h5>
+                </div>
+                <div class="card-body">
+                    {% for task in todo_tasks %}
+                        <div class="card mb-2">
+                            {% if task.dead_line %}
+                                <div class="card-header">
+                                    Until: {{ task.dead_line }}
+                                </div>
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ task.title }}</h5>
+                                <p class="card-text">{{ task.description }}</p>
+                                <a href="{% url 'update' task.id %}" class="card-link">Edit</a>
+                                <form class="mx-0" method="POST" action="{% url 'delete' task.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-link card-link px-0">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">In Progress</h5>
+                </div>
+                <div class="card-body">
+                    {% for task in in_progress_tasks %}
+                        <div class="card mb-2">
+                            {% if task.dead_line %}
+                                <div class="card-header">
+                                    Until: {{ task.dead_line }}
+                                </div>
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ task.title }}</h5>
+                                <p class="card-text">{{ task.description }}</p>
+                                <a href="{% url 'update' task.id %}" class="card-link">Edit</a>
+                                <form class="mx-0" method="POST" action="{% url 'delete' task.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-link card-link px-0">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card">
+                <div class="card-header bg-warning text-white">
+                    <h5 class="mb-0">Done</h5>
+                </div>
+                <div class="card-body">
+                    {% for task in done_tasks %}
+                        <div class="card mb-2">
+                            {% if task.dead_line %}
+                                <div class="card-header">
+                                    Until: {{ task.dead_line }}
+                                </div>
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ task.title }}</h5>
+                                <p class="card-text">{{ task.description }}</p>
+                                <a href="{% url 'update' task.id %}" class="card-link">Edit</a>
+                                <form class="mx-0" method="POST" action="{% url 'delete' task.id %}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-link card-link px-0">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

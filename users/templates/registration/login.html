@@ -1,0 +1,15 @@
+<!-- registration_form.html -->
+{% extends 'base.html' %}
+
+{% block title %}
+    User Login - TaskTracker
+{% endblock %}
+
+{% block content %}
+    <h1 class="mt-5 mb-4">User Login</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit" class="btn btn-primary">Login/Email</button>
+    </form>
+{% endblock %}
